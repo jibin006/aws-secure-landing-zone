@@ -1,0 +1,47 @@
+# Terraform
+**/.terraform/
+**/.terraform.lock.hcl
+**/terraform.tfstate
+**/terraform.tfstate.backup
+**/terraform.tfstate.*.backup
+**/.terraform.tfstate.lock.info
+
+# Variable files with sensitive values - never commit these
+**/terraform.tfvars
+**/terraform.tfvars.json
+**/*.auto.tfvars
+**/*.auto.tfvars.json
+
+# Backend config files contain bucket names and account IDs
+# Commit backend.hcl.example but not backend.hcl
+**/backend.hcl
+!**/backend.hcl.example
+
+# AWS credentials - should never be in this repo
+**/.aws/
+**/credentials
+**/*.pem
+**/*.key
+
+# Local override files
+**/override.tf
+**/override.tf.json
+**/*_override.tf
+**/*_override.tf.json
+
+# Generated outputs
+**/outputs-*.json
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
