@@ -1,3 +1,16 @@
+
+aws-secure-landing-zone/
+├── README.md
+├── iam/
+│   ├── oidc/
+│   ├── cross-account/
+│   └── vending-machine/
+├── docs/
+│   └── iam-ai-workload-analysis.md
+└── .github/
+    └── workflows/
+
+
 # AWS Secure Landing Zone — Production-Grade Multi-Account Architecture
 
 > **Portfolio Project** | Cloud Security Engineering | Jibin Benny  
