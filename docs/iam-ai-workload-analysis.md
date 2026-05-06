@@ -39,8 +39,11 @@ The Blast Radius
 The blast radius includes any infrastructure managed by that Terraform state. If credentials or role references are exposed, an attacker could:
 
 Assume roles
+
 Access cloud resources
+
 Modify infrastructure indirectly
+
 Pivot into other services
 
 Additionally, even without credentials, the state file reveals the full architecture, which increases the attack surface.
@@ -64,9 +67,13 @@ I would treat the state file as compromised and assume any sensitive data inside
 Not tools—thinking:
 
 Does state contain:
+
 access keys?
+
 secrets?
+
 RDS passwords?
+
 IAM role ARNs?
 
 👉 This defines severity
@@ -83,15 +90,21 @@ Was data actually accessed or just exposed?
 I would determine who or what changed the bucket policy:
 
 human user
+
 CI/CD pipeline
+
 compromised credential
+
 6) Credential rotation (if needed)
 
 If secrets are found in state:
 
 rotate credentials immediately
+
 invalidate tokens
+
 reissue access
+
 7) State integrity check
 
 Verify Terraform state has not been altered or replaced
