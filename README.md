@@ -22,6 +22,7 @@ weights.
 ## Architecture
 
 [ASCII or diagram — every component, trust boundary, data flow]
+```
 
 Management Account
   └── IAM Vending Machine Lambda (role: vending-machine-executor)
@@ -36,6 +37,7 @@ Workload Accounts
 CI/CD Pipeline (GitHub Actions)
   └── OIDC Federation → AWS Role (scoped to repo:branch)
        └── No static credentials at any point in chain
+```
 
 ## Security Decisions (Detailed)
 
