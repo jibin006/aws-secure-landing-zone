@@ -1,0 +1,1 @@
+{"statusCode": 200, "body": {"role_arn": "arn:aws:iam::359005010206:role/test-bounded-role", "boundary_applied": "arn:aws:iam::359005010206:policy/developer-boundary", "message": "Role created with permission boundary enforced"}}

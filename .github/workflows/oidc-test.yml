@@ -1,7 +1,7 @@
 name: OIDC Test
 on:
   push:
-    branches: ["**"]
+    branches: [main]
 
 permissions:
   id-token: write
