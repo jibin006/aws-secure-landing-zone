@@ -108,3 +108,60 @@ reissue access
 7) State integrity check
 
 Verify Terraform state has not been altered or replaced
+
+
+**The question:**
+
+**"OIDC is not available in this environment. The GitHub OIDC endpoint is blocked by corporate proxy. You have 15 minutes. Walk me through exactly how you authenticate the CI/CD pipeline to AWS with zero static credentials."**
+
+
+
+Initial Answer (before interruption)
+
+The risk here is introducing a reusable credential into the CI/CD pipeline. Any static or semi-static credential—even if rotated—can be exfiltrated from the pipeline environment, logs, or intermediate systems and reused outside the intended execution context.
+
+Given OIDC is not available, my goal is:
+
+Eliminate reusable credentials and enforce short-lived, context-bound authentication
+
+
+What I would do
+I would authenticate the pipeline using ephemeral credentials generated at runtime, not pre-stored
+The pipeline would request access dynamically from AWS using a trusted intermediary
+That intermediary would:
+Validate the pipeline identity (job, repo, environment)
+Issue short-lived credentials via STS
+Scope them strictly to that job
+
+So the flow becomes:
+
+Pipeline → trusted broker → AWS STS → temporary credentials → job executes
+
+Key properties:
+
+
+No credentials stored in GitHub
+
+No reuse possible
+
+Credentials expire automatically
+
+Access tied to execution context
+
+⏱️ Interruption — Pushback
+
+“Why not just rotate the access keys every 24 hours?”
+
+Response (under pressure)
+
+Acknowledge
+
+Rotation reduces the exposure window — that is correct.
+
+Adapt
+
+But it does not eliminate the credential class. A 24-hour window where credentials exist means any system that touches those credentials—CI/CD environment variables, logs, secret distribution layers—is now a viable exfiltration point. Once leaked, those credentials are valid from anywhere, completely breaking the intended trust boundary.
+
+Trade-off
+
+If I must operate without OIDC, I would move to a model where credentials are generated just-in-time and expire quickly—using a brokered STS flow backed by a secure system that issues credentials per job. The trade-off I accept is increased system complexity and dependency on that broker’s availability, instead of relying on static key rotation which is simpler but fundamentally less secure.
