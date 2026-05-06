@@ -1,11 +1,15 @@
 Q1.A — Blast radius if OIDC trust allows any branch on a Vertex AI training pipeline
 
-Write this out. If the sub condition is missing and the training pipeline uses OIDC to authenticate to GCP/AWS, any CI/CD workflow can now:
+If the sub condition is missing and the training pipeline uses OIDC to authenticate to GCP/AWS, any CI/CD workflow can now:
 
 Read training data from the model artifact bucket
+
 Write model artifacts (overwriting legitimate model weights)
+
 Trigger training jobs with modified parameters
+
 Access the training service account's credentials
+
 The blast radius is not just credential theft. The blast radius includes model integrity. A tampered model trained on injected data can exfiltrate information through its outputs.
 
 Q1.B — Minimum permission set for a model serving endpoint
