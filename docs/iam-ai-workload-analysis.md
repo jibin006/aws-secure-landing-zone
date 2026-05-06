@@ -13,6 +13,9 @@ Q1.B — Minimum permission set for a model serving endpoint
 Think through this:
 
 What does a serving endpoint need to read? The model artifact from storage. That is storage.objects.get on the specific bucket/object path.
+
 What does it need to write? Prediction logs. That is bigquery.tabledata.insertAll on the specific logging table.
+
 What does it explicitly not need? IAM permissions. Service account management. Access to other model buckets. Access to training infrastructure.
+
 Write the principle: the serving identity and the training identity are separate. The serving identity cannot overwrite model weights. The training identity cannot serve predictions. They share nothing.
