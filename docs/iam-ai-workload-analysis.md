@@ -30,23 +30,11 @@ Write the principle: the serving identity and the training identity are separate
 
 **"You discover that an S3 bucket containing Terraform state files has had its bucket policy changed to allow public read access. The change happened 6 hours ago. You do not know who made the change or why."**
 
-The Risk
-
-The risk here is that Terraform state files may contain sensitive data such as access keys, IAM role ARNs, database credentials, and infrastructure configuration. Public read access means this data could have been exposed to anyone on the internet for the past 6 hours, enabling attackers to gain unauthorized access and potentially escalate privileges.
-
-The Blast Radius
-
-The blast radius includes any infrastructure managed by that Terraform state. If credentials or role references are exposed, an attacker could:
-
-Assume roles
-
-Access cloud resources
-
-Modify infrastructure indirectly
-
-Pivot into other services
-
-Additionally, even without credentials, the state file reveals the full architecture, which increases the attack surface.
+The risk here is full environment compromise without detection because the Terraform state file exposes sensitive data and the complete infrastructure graph in a single artifact.
+The attacker can extract specific values like RDS passwords, IAM role ARNs and trust relationships, KMS key IDs, VPC CIDRs, and security group mappings, giving them a precise blueprint to target resources directly.
+Detection fails because the attacker downloads and analyzes the state file locally — not a single AWS CloudTrail event is generated until they begin exploitation.
+The blast radius includes every account and environment referenced in the state, and if a shared backend with multiple workspaces is used, a single exposed S3 bucket can collapse isolation across dev, staging, and production simultaneously.
+Fixing the bucket only stops further exposure, but the incident persists because all secrets, trust relationships, and infrastructure mappings in the state must be assumed compromised and already in the attacker’s possession.
 
 First 10 Minutes (This is where you need precision)
 1) Immediate containment (FIRST action)
